@@ -15,7 +15,7 @@ const inter = Inter({ subsets: ["latin"] })
 const APP_NAME = "Chatbot UI"
 const APP_DEFAULT_TITLE = "Chatbot UI"
 const APP_TITLE_TEMPLATE = "%s - Chatbot UI"
-const APP_DESCRIPTION = "Chabot UI PWA!"
+const APP_DESCRIPTION = "Chatbot UI PWA!"
 
 interface RootLayoutProps {
   children: ReactNode
@@ -36,7 +36,6 @@ export const metadata: Metadata = {
     capable: true,
     statusBarStyle: "black",
     title: APP_DEFAULT_TITLE
-    // startUpImage: [],
   },
   formatDetection: {
     telephone: false
@@ -71,6 +70,8 @@ export default async function RootLayout({
   params: { locale }
 }: RootLayoutProps) {
   const cookieStore = cookies()
+
+  // Creamos el cliente de Supabase (por si lo usas en otras partes)
   const supabase = createServerClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -82,12 +83,14 @@ export default async function RootLayout({
       }
     }
   )
-  const session = (await supabase.auth.getSession()).data.session
+
+  // Eliminamos la restricción de sesión
+  // const session = (await supabase.auth.getSession()).data.session
 
   const { t, resources } = await initTranslations(locale, i18nNamespaces)
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <body className={inter.className}>
         <Providers attribute="class" defaultTheme="dark">
           <TranslationsProvider
@@ -97,7 +100,9 @@ export default async function RootLayout({
           >
             <Toaster richColors position="top-center" duration={3000} />
             <div className="bg-background text-foreground flex h-dvh flex-col items-center overflow-x-auto">
-              {session ? <GlobalState>{children}</GlobalState> : children}
+              {/* ¡Quitamos la validación de sesión! */}
+              {/* {session ? <GlobalState>{children}</GlobalState> : children} */}
+              <GlobalState>{children}</GlobalState>
             </div>
           </TranslationsProvider>
         </Providers>
