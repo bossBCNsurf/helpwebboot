@@ -1,5 +1,6 @@
 
 "use client"
+import { useContext } from "react"
 
 import { FC, useEffect, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
@@ -63,8 +64,8 @@ export const ChatInput: FC<ChatInputProps> = ({
         onCompositionStart={() => setIsTyping(true)}
         onCompositionEnd={() => setIsTyping(false)}
       />
+<div className="ml-2 shrink-0 cursor-pointer">
 
-      <div className="ml-2 flex-shrink-0 cursor-pointer">
         {isGenerating ? (
           <IconPlayerStopFilled
             onClick={handleStopMessage}
