@@ -1,5 +1,5 @@
 "use client"
-import { useContext, FC, useEffect, useState } from "react"
+import { FC, useEffect, useRef, useState, useContext } from "react" // ✅ AHORA INCLUYE useContext
 import { useTranslation } from "react-i18next"
 import { ChatbotUIContext } from "@/context/context"
 import { useChatHandler } from "./chat-hooks/use-chat-handler"
@@ -14,7 +14,7 @@ interface ChatInputProps {
 }
 
 export const ChatInput: FC<ChatInputProps> = ({
-  placeholder = ""
+  placeholder = "Pregunta lo que quieras sobre nuestras clases, surftrips o el mar 🌊"
 }) => {
   const { t } = useTranslation()
   const [isTyping, setIsTyping] = useState(false)
@@ -54,7 +54,7 @@ export const ChatInput: FC<ChatInputProps> = ({
         textareaRef={chatInputRef}
         className="text-[#0F3863] text-md w-full resize-none border-none bg-transparent focus:outline-none placeholder:text-[#6B7280]"
         placeholder={placeholder}
-        onValueChange={setUserInput} {/* ✅ Aquí está el cambio importante */}
+        onValueChange={val => setUserInput(val)}
         value={userInput}
         minRows={1}
         maxRows={6}
