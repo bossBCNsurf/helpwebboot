@@ -1,8 +1,5 @@
-
 "use client"
-import { useContext } from "react"
-
-import { FC, useEffect, useRef, useState } from "react"
+import { useContext, FC, useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { ChatbotUIContext } from "@/context/context"
 import { useChatHandler } from "./chat-hooks/use-chat-handler"
@@ -17,13 +14,14 @@ interface ChatInputProps {
 }
 
 export const ChatInput: FC<ChatInputProps> = ({
-  placeholder = "Pregunta lo que quieras sobre nuestras clases, surftrips o el mar 🌊"
+  placeholder = ""
 }) => {
   const { t } = useTranslation()
   const [isTyping, setIsTyping] = useState(false)
 
   const {
     userInput,
+    setUserInput,
     chatMessages,
     isGenerating
   } = useContext(ChatbotUIContext)
@@ -56,7 +54,7 @@ export const ChatInput: FC<ChatInputProps> = ({
         textareaRef={chatInputRef}
         className="text-[#0F3863] text-md w-full resize-none border-none bg-transparent focus:outline-none placeholder:text-[#6B7280]"
         placeholder={placeholder}
-        onValueChange={() => {}}
+        onValueChange={setUserInput} {/* ✅ Aquí está el cambio importante */}
         value={userInput}
         minRows={1}
         maxRows={6}
@@ -64,8 +62,8 @@ export const ChatInput: FC<ChatInputProps> = ({
         onCompositionStart={() => setIsTyping(true)}
         onCompositionEnd={() => setIsTyping(false)}
       />
-<div className="ml-2 shrink-0 cursor-pointer">
 
+      <div className="ml-2 shrink-0 cursor-pointer">
         {isGenerating ? (
           <IconPlayerStopFilled
             onClick={handleStopMessage}
