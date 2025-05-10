@@ -66,14 +66,15 @@ export const WorkspaceSettings: FC<WorkspaceSettingsProps> = ({}) => {
     embeddingsProvider: selectedWorkspace?.embeddings_provider
   })
 
-  useEffect(() => {
-    const workspaceImage =
-      workspaceImages.find(
-        image => image.path === selectedWorkspace?.image_path
-      )?.base64 || ""
+useEffect(() => {
+  const workspaceImage =
+    workspaceImages.find(
+      image => image.path === selectedWorkspace?.image_path
+    )?.base64 || ""
 
-    setImageLink(workspaceImage)
-  }, [workspaceImages])
+  setImageLink(workspaceImage)
+}, [workspaceImages, selectedWorkspace?.image_path])
+
 
   const handleSave = async () => {
     if (!selectedWorkspace) return
