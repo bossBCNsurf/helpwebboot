@@ -101,8 +101,9 @@ export default async function RootLayout({
             <Toaster richColors position="top-center" duration={3000} />
             <div className="bg-background text-foreground flex h-dvh flex-col items-center overflow-x-auto">
               {/* ¡Quitamos la validación de sesión! */}
-              {/* {session ? <GlobalState>{children}</GlobalState> : children} */}
-              <GlobalState>{children}</GlobalState>
+ <GlobalState>{children}</GlobalState>
+
+
             </div>
           </TranslationsProvider>
         </Providers>
