@@ -3,26 +3,32 @@
 import { ChatHelp } from "@/components/chat/chat-help"
 import { useChatHandler } from "@/components/chat/chat-hooks/use-chat-handler"
 import { ChatInput } from "@/components/chat/chat-input"
-import { ChatSettings } from "@/components/chat/chat-settings"
 import { ChatUI } from "@/components/chat/chat-ui"
-import { QuickSettings } from "@/components/chat/quick-settings"
 import { Brand } from "@/components/ui/brand"
 import { ChatbotUIContext } from "@/context/context"
 import useHotkey from "@/lib/hooks/use-hotkey"
 import { useTheme } from "next-themes"
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 
 export default function ChatPage() {
   useHotkey("o", () => handleNewChat())
-  useHotkey("l", () => {
-    handleFocusChatInput()
-  })
+  useHotkey("l", () => handleFocusChatInput())
 
-  const { chatMessages } = useContext(ChatbotUIContext)
-
+  const { chatMessages, setChatSettings } = useContext(ChatbotUIContext)
   const { handleNewChat, handleFocusChatInput } = useChatHandler()
-
   const { theme } = useTheme()
+
+  useEffect(() => {
+    setChatSettings({
+      model: "gpt-3.5-turbo",
+      prompt: "Eres un asistente simpático y profesional de BCN Surf School.",
+      temperature: 0.5,
+      contextLength: 4096,
+      includeProfileContext: false,
+      includeWorkspaceInstructions: false,
+      embeddingsProvider: "openai"
+    })
+  }, [])
 
   return (
     <>
@@ -32,13 +38,7 @@ export default function ChatPage() {
             <Brand theme={theme === "dark" ? "dark" : "light"} />
           </div>
 
-          <div className="absolute left-2 top-2">
-            <QuickSettings />
-          </div>
-
-          <div className="absolute right-2 top-2">
-            <ChatSettings />
-          </div>
+          {/* Eliminamos QuickSettings y ChatSettings */}
 
           <div className="flex grow flex-col items-center justify-center" />
 
